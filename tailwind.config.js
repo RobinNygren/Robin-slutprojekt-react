@@ -12,6 +12,9 @@ export default {
           detail: "#66FCF1",
         },
       },
+      fontFamily: {
+        "roboto-slab": ["Roboto Slab", "serif"],
+      },
     },
   },
   plugins: [],
