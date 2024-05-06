@@ -2,6 +2,9 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    fontFamily: {
+      sans: ["Roboto Slab", "serif"],
+    },
     extend: {
       colors: {
         "bookFlix-colors": {
@@ -11,9 +14,6 @@ export default {
           background: "#1F2833",
           detail: "#66FCF1",
         },
-      },
-      fontFamily: {
-        "roboto-slab": ["Roboto Slab", "serif"],
       },
     },
   },
