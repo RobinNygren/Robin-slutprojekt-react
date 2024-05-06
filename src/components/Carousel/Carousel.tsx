@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import ChevronLeft from "../../assets/icons/ChevronLeft.svg";
 import ChevronRight from "../../assets/icons/ChevronRight.svg";
+import { CarouselProps } from "../../types/types";
 
-const Carousel: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Carousel: React.FC<CarouselProps> = ({ title, children }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const slides = React.Children.toArray(children);
   const itemsPerPage = 5;
@@ -25,6 +26,9 @@ const Carousel: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <div className="relative overflow-hidden mx-auto max-w-screen-xl">
+      <h1 className="flex justify-center items-center text-2xl font-bold text-bookFlix-colors-secondary">
+        {title}
+      </h1>
       <button
         onClick={prev}
         aria-label="Previous slide"

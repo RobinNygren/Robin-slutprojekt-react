@@ -6,22 +6,22 @@ import BookCard from "../BookCard/BookCard";
 
 const CarouselManager: React.FC = () => {
   const {
-    data: newlyAddedBooks,
-    loading: newlyAddedBooksLoading,
-    error: newlyAddedBooksError,
+    data: sciFiBooks,
+    loading: sciFiBooksLoading,
+    error: sciFiBooksError,
   } = useFetch<ApiResponse>(
     "https://openlibrary.org/subjects/sci-fi.json?limit=25"
   );
   const {
-    data: topRatedBooks,
-    loading: loadingTopRated,
-    error: topRatedBooksError,
+    data: loveBooks,
+    loading: loveBooksLoading,
+    error: loveBooksError,
   } = useFetch<ApiResponse>(
     "https://openlibrary.org/subjects/love.json?limit=25"
   );
 
-  console.log("Newly Added Books Data:", newlyAddedBooks);
-  console.log("Top Rated Books Data:", topRatedBooks);
+  console.log("Newly Added Books Data:", sciFiBooks);
+  console.log("Top Rated Books Data:", loveBooks);
 
   const renderBookItems = (works: Work[]) =>
     works.map((work) => ({
@@ -32,10 +32,7 @@ const CarouselManager: React.FC = () => {
       key: work.key,
     }));
 
-  /* const newlyAddedItems = renderBookItems(newlyAddedBooks?.docs || []);
-  const topRatedItems = renderBookItems(topRatedBooks?.docs || []); */
-
-  const isLoading = newlyAddedBooksLoading || loadingTopRated;
+  const isLoading = sciFiBooksLoading || loveBooksLoading;
 
   return (
     <div>
@@ -43,14 +40,12 @@ const CarouselManager: React.FC = () => {
         <p>Loading...</p>
       ) : (
         <>
-          {newlyAddedBooksError ? (
-            <p>Error: {newlyAddedBooksError}</p>
+          {sciFiBooksError ? (
+            <p>Error: {sciFiBooksError}</p>
           ) : (
-            <Carousel>
-              {newlyAddedBooks &&
-              newlyAddedBooks.works &&
-              newlyAddedBooks.works.length > 0 ? (
-                renderBookItems(newlyAddedBooks.works).map((item) => (
+            <Carousel title="Sci-Fi">
+              {sciFiBooks && sciFiBooks.works && sciFiBooks.works.length > 0 ? (
+                renderBookItems(sciFiBooks.works).map((item) => (
                   <BookCard
                     key={item.key}
                     book={item}
@@ -65,14 +60,12 @@ const CarouselManager: React.FC = () => {
               )}
             </Carousel>
           )}
-          {topRatedBooksError ? (
-            <p>Error: {topRatedBooksError}</p>
+          {loveBooksError ? (
+            <p>Error: {loveBooksError}</p>
           ) : (
-            <Carousel>
-              {topRatedBooks &&
-              topRatedBooks.works &&
-              topRatedBooks.works.length > 0 ? (
-                renderBookItems(topRatedBooks.works).map((item) => (
+            <Carousel title="Love">
+              {loveBooks && loveBooks.works && loveBooks.works.length > 0 ? (
+                renderBookItems(loveBooks.works).map((item) => (
                   <BookCard
                     key={item.key}
                     book={item}
