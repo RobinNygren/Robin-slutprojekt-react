@@ -12,7 +12,7 @@ const Navbar = () => {
             <Menu.Button className="hover:bg-bookFlix-colors-accent px-4 py-2 rounded flex items-center">
               <img src={MenuIcon} alt="Menu" className="h-12 w-12" />
             </Menu.Button>
-            <Menu.Items className="absolute left-0 w-48 mt-2 origin-top-left bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute left-0 w-48 mt-2 origin-top-left bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-20">
               <Menu.Item>
                 {({ active }) => (
                   <NavLink

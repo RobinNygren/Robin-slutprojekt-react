@@ -25,7 +25,7 @@ const Carousel: React.FC<CarouselProps> = ({ title, children }) => {
   const translateAmount = -(currentIndex * 100);
 
   return (
-    <div className="relative mx-auto max-w-screen-xl">
+    <div className="relative mx-auto max-w-screen-xl bg-bookFlix-colors-primary my-16">
       <h1 className="flex justify-center items-center text-2xl font-bold text-bookFlix-colors-secondary">
         {title}
       </h1>
