@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import Footer from "../components/Layout/Footer";
 import Header from "../components/Layout/Header";
 import Navbar from "../components/Layout/Navbar";
+import CarouselManager from "../components/CarouselManager/CarouselManager";
 
 const Root = () => {
   return (
@@ -10,6 +11,7 @@ const Root = () => {
         <Header />
         <Navbar />
         <main className="flex-grow bg-bookFlix-colors-background">
+          <CarouselManager />
           <Outlet />
         </main>
         <Footer />
