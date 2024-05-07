@@ -20,6 +20,23 @@ export type ApiResponse = {
   works: Work[];
 };
 
+export type GlobalState = {
+  favoriteBooks: Book[];
+  favoriteAuthors: Author[];
+  statistics: ApiResponse[];
+};
+
+export type GlobalStateProviderProp = {
+  children: React.ReactNode;
+};
+
+export type Action =
+  | { type: "ADD_FAVORITE_BOOK"; payload: Book }
+  | { type: "REMOVE_FAVORITE_BOOK"; payload: Book }
+  | { type: "ADD_FAVORITE_AUTHOR"; payload: Author }
+  | { type: "REMOVE_FAVORITE_AUTHOR"; payload: Author }
+  | { type: "ADD_STATISTICS"; payload: ApiResponse };
+
 export type CarouselProps = {
   /* items: JSX.Element[]; */
   children: React.ReactNode;

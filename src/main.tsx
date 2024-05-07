@@ -9,6 +9,7 @@ import MyBooks from "./routes/MyBooks";
 import BookDetails from "./routes/BookDetails";
 import AuthorDetails from "./routes/AuthorDetails";
 import Statistics from "./routes/Statistics";
+import { GlobalStateProvider } from "./components/GlobalStateProvider";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <GlobalStateProvider>
+      <RouterProvider router={router} />
+    </GlobalStateProvider>
   </React.StrictMode>
 );
