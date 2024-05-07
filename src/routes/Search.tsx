@@ -1,3 +1,4 @@
+import AdvancedSearch from "../components/AdvancedSearch/AdvancedSearch";
 import QuickSearch from "../components/QuickSearch/QuickSearch";
 
 const Search = () => {
@@ -7,6 +8,7 @@ const Search = () => {
       <div>
         <p>search here</p>
         <QuickSearch />
+        <AdvancedSearch />
       </div>
     </>
   );
