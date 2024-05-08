@@ -1,14 +1,34 @@
 export type Book = {
   title: string;
-  cover_i: number;
-  author_name: string;
-  first_publish_year: number;
+  cover_i?: number;
+  author_name: string[];
+  first_publish_year?: number;
   key: string;
 };
 
 export type Author = {
+  alternate_names?: string[];
+  birth_date?: string;
   key: string;
   name: string;
+  top_subjects?: string[];
+  top_work?: string;
+  type?: string;
+  work_count?: number;
+};
+
+export type AuthorApiResponse = {
+  numFound: number;
+  start: number;
+  numFoundExact: boolean;
+  docs: Author[];
+};
+
+export type BookApiResponse = {
+  numFound: number;
+  start: number;
+  numFoundExact: boolean;
+  docs: Book[];
 };
 
 export type ApiResponse = {

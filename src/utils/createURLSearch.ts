@@ -1,8 +1,11 @@
-const createURLSearch = (paramsMap: { [key: string]: string }): string => {
+const createURLSearch = (paramsMap: {
+  [key: string]: string | undefined;
+}): string => {
   const params = new URLSearchParams();
   Object.keys(paramsMap).forEach((key) => {
-    if (paramsMap[key]) {
-      params.append(key, paramsMap[key]);
+    const value = paramsMap[key];
+    if (value !== undefined) {
+      params.append(key, value);
     }
   });
   return params.toString();
