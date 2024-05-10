@@ -23,11 +23,11 @@ const CarouselManager: React.FC = () => {
   console.log("Newly Added Books Data:", sciFiBooks);
   console.log("Top Rated Books Data:", loveBooks);
 
-  const renderBookItems = (works: Work[]) =>
+  const renderBookItems = (works: Work[]): Book[] =>
     works.map((work) => ({
       title: work.title,
       cover_i: work.cover_id || 0,
-      author_name: work.authors[0]?.name || "Unknown Author",
+      author_name: work.authors.map((author) => author.name),
       first_publish_year: work.first_publish_year || 0,
       key: work.key,
     }));
@@ -45,14 +45,14 @@ const CarouselManager: React.FC = () => {
           ) : (
             <Carousel title="Sci-Fi">
               {sciFiBooks && sciFiBooks.works && sciFiBooks.works.length > 0 ? (
-                renderBookItems(sciFiBooks.works).map((item) => (
+                renderBookItems(sciFiBooks.works).map((book) => (
                   <BookCard
-                    key={item.key}
-                    book={item}
-                    title={item.title}
+                    key={book.key}
+                    book={book}
+                    /* title={item.title}
                     cover_i={item.cover_i}
                     author_name={item.author_name}
-                    first_publish_year={item.first_publish_year}
+                    first_publish_year={item.first_publish_year} */
                   />
                 ))
               ) : (
@@ -65,14 +65,14 @@ const CarouselManager: React.FC = () => {
           ) : (
             <Carousel title="Love">
               {loveBooks && loveBooks.works && loveBooks.works.length > 0 ? (
-                renderBookItems(loveBooks.works).map((item) => (
+                renderBookItems(loveBooks.works).map((book) => (
                   <BookCard
-                    key={item.key}
-                    book={item}
-                    title={item.title}
+                    key={book.key}
+                    book={book}
+                    /* title={item.title}
                     cover_i={item.cover_i}
                     author_name={item.author_name}
-                    first_publish_year={item.first_publish_year}
+                    first_publish_year={item.first_publish_year} */
                   />
                 ))
               ) : (

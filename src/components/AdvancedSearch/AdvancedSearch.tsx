@@ -10,6 +10,8 @@ import {
 } from "../../types/types";
 import { Listbox } from "@headlessui/react";
 import useSearch from "../../hooks/useSearch";
+import BookCard from "../BookCard/BookCard";
+import AuthorCard from "../AuthorCard/AuthorCard";
 
 const AdvancedSearch: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -109,29 +111,22 @@ const AdvancedSearch: React.FC = () => {
         ) : booksError ? (
           <div>Error: {booksError}</div>
         ) : (
-          <ul className="mt-4 list-disc list-inside">
-            {booksData &&
-              booksData.docs.map((book: Book, index: number) => (
-                <li key={index}>
-                  {book.title} -{" "}
-                  {Array.isArray(book.author_name)
-                    ? book.author_name.join(", ")
-                    : "Unknown Author"}
-                </li>
-              ))}
-          </ul>
+          <div className="flex flex-wrap gap-4 justify-center">
+            {booksData?.docs.map((book: Book, index: number) => (
+              <BookCard key={index} book={book} />
+            ))}
+          </div>
         )
       ) : authorsLoading ? (
         <div>Loading...</div>
       ) : authorsError ? (
         <div>Error: {authorsError}</div>
       ) : (
-        <ul className="mt-4 list-disc list-inside">
-          {authorsData &&
-            authorsData.docs.map((author: Author, index: number) => (
-              <li key={index}>{author.name}</li>
-            ))}
-        </ul>
+        <div className="flex flex-wrap gap-4 justify-center">
+          {authorsData?.docs.map((author: Author, index: number) => (
+            <AuthorCard key={index} author={author} />
+          ))}
+        </div>
       )}
     </div>
   );

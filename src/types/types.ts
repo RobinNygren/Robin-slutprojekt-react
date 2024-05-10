@@ -67,10 +67,20 @@ export type CarouselProps = {
 
 export type BookCardProps = {
   book: Book;
-  title: string;
+  /*  title: string;
   cover_i: number;
   author_name: string;
-  first_publish_year: number;
+  first_publish_year: number; */
+};
+
+export type AuthorCardProps = {
+  author: Author;
+};
+
+export type BookModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  book: Book;
 };
 
 export type Work = {
