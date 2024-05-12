@@ -8,10 +8,12 @@ import {
   Book,
   Author,
 } from "../../types/types";
-import { Listbox } from "@headlessui/react";
 import useSearch from "../../hooks/useSearch";
 import BookCard from "../BookCard/BookCard";
 import AuthorCard from "../AuthorCard/AuthorCard";
+import ModalManager from "../ModalManager/ModalManager";
+import SearchForm from "../SearchForm/SearchForm";
+import ResultList from "../ResultList/ResultList";
 
 const AdvancedSearch: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,6 +23,9 @@ const AdvancedSearch: React.FC = () => {
   const initialType = searchParams.get("type") || "title";
   const [searchType, setSearchType] = useState(initialType);
   const [url, setUrl] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<React.ReactNode>(null);
+  const [modalActions, setModalActions] = useState<React.ReactNode>(null);
 
   const searchOptions = [
     {
@@ -35,99 +40,93 @@ const AdvancedSearch: React.FC = () => {
     },
   ];
 
+  const currentUrl =
+    searchOptions.find((option) => option.value === searchType)?.url +
+    encodeURIComponent(debouncedSearchTerm);
+
   useEffect(() => {
-    if (debouncedSearchTerm) {
+    if (debouncedSearchTerm.trim() !== "") {
       const newUrl =
         searchOptions.find((option) => option.value === searchType)?.url +
         encodeURIComponent(debouncedSearchTerm);
       setUrl(newUrl);
       setSearchParams({ type: searchType, query: debouncedSearchTerm });
     }
-  }, [searchType, debouncedSearchTerm, setSearchParams]);
+  }, [debouncedSearchTerm, searchType, setSearchParams]);
+
+  const onSearch = () => {
+    const newUrl =
+      searchOptions.find((option) => option.value === searchType)?.url +
+      encodeURIComponent(searchTerm);
+    setUrl(newUrl);
+    setSearchParams({ type: searchType, query: searchTerm });
+  };
 
   const {
     data: booksData,
     loading: booksLoading,
     error: booksError,
-  } = useFetch<BookApiResponse>(url);
+  } = useFetch<BookApiResponse>(searchType === "title" ? currentUrl : "");
 
   const {
     data: authorsData,
     loading: authorsLoading,
     error: authorsError,
-  } = useFetch<AuthorApiResponse>(url);
+  } = useFetch<AuthorApiResponse>(searchType === "author" ? currentUrl : "");
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleItemSelect = (item: Book | Author) => {
+    const itemActions = (
+      <>
+        <button onClick={() => console.log("Add to favorites")}>
+          Add to favorites
+        </button>
+        <button onClick={() => console.log("Add to as Read")}>
+          Add as Read
+        </button>
+      </>
+    );
+
+    const itemContent =
+      searchType === "title" ? (
+        <BookCard book={item as Book} />
+      ) : (
+        <AuthorCard author={item as Author} />
+      );
+    setModalContent(itemContent);
+    setModalActions(itemActions);
+    setModalOpen(true);
   };
 
   return (
     <div className="p-4">
-      <form onSubmit={handleSearch} className="space-y-4">
-        <Listbox value={searchType} onChange={setSearchType}>
-          <Listbox.Button className="btn btn-block">
-            {searchOptions.find((option) => option.value === searchType)?.name}
-          </Listbox.Button>
-          <Listbox.Options className="absolute z-10 w-full mt-1 overflow-auto bg-white border border-gray-200 rounded-md shadow-lg max-h-60">
-            {searchOptions.map((option, index) => (
-              <Listbox.Option
-                key={index}
-                value={option.value}
-                as={React.Fragment}
-                disabled={option.value === searchType}
-              >
-                {({ active }) => (
-                  <li
-                    className={`cursor-pointer select-none relative p-2 ${
-                      active ? "bg-blue-500 text-white" : "text-gray-900"
-                    }`}
-                  >
-                    {option.name}
-                  </li>
-                )}
-              </Listbox.Option>
-            ))}
-          </Listbox.Options>
-        </Listbox>
-        <input
-          type="text"
-          placeholder={
-            searchOptions.find((option) => option.value === searchType)?.name
-          }
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="input input-bordered w-full max-w-xs"
-        />
-        <button type="submit" className="">
-          Search
-        </button>
-        <button type="button" onClick={clearSearch} className="">
-          Clear
-        </button>
-      </form>
+      <SearchForm
+        searchType={searchType}
+        setSearchType={setSearchType}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        searchOptions={searchOptions}
+        onSearch={onSearch}
+        onClear={clearSearch}
+      />
       {searchType === "title" ? (
-        booksLoading ? (
-          <div>Loading...</div>
-        ) : booksError ? (
-          <div>Error: {booksError}</div>
-        ) : (
-          <div className="flex flex-wrap gap-4 justify-center">
-            {booksData?.docs.map((book: Book, index: number) => (
-              <BookCard key={index} book={book} />
-            ))}
-          </div>
-        )
-      ) : authorsLoading ? (
-        <div>Loading...</div>
-      ) : authorsError ? (
-        <div>Error: {authorsError}</div>
+        <ResultList
+          results={booksData?.docs || []}
+          type="books"
+          onItemClick={handleItemSelect}
+        />
       ) : (
-        <div className="flex flex-wrap gap-4 justify-center">
-          {authorsData?.docs.map((author: Author, index: number) => (
-            <AuthorCard key={index} author={author} />
-          ))}
-        </div>
+        <ResultList
+          results={authorsData?.docs || []}
+          type="authors"
+          onItemClick={handleItemSelect}
+        />
       )}
+      <ModalManager
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        content={modalContent}
+        actions={modalActions}
+      />
     </div>
   );
 };

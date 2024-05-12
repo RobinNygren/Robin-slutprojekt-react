@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type Book = {
   title: string;
   cover_i?: number;
@@ -58,7 +60,6 @@ export type Action =
   | { type: "ADD_STATISTICS"; payload: ApiResponse };
 
 export type CarouselProps = {
-  /* items: JSX.Element[]; */
   children: React.ReactNode;
   autoSlide?: boolean;
   autoSlideInterval?: number;
@@ -67,20 +68,49 @@ export type CarouselProps = {
 
 export type BookCardProps = {
   book: Book;
-  /*  title: string;
-  cover_i: number;
-  author_name: string;
-  first_publish_year: number; */
 };
 
 export type AuthorCardProps = {
   author: Author;
 };
+export type ModalItem = Book | Author;
 
-export type BookModalProps = {
+export type CardModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  book: Book;
+  content: ReactNode;
+  actions?: ReactNode;
+};
+
+export type SearchInputProps = {
+  searchType: string;
+  setSearchType: (searchType: string) => void;
+  searchTerm: string;
+  setSearchTerm: (searchTerm: string) => void;
+  searchOptions: { value: string; name: string; url: string }[];
+};
+
+export type ResultListProps = {
+  results: Book[] | Author[];
+  type: "books" | "authors";
+  onItemClick: (item: Book | Author) => void;
+};
+
+export type ModalManagerProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  content: React.ReactNode;
+  actions: React.ReactNode;
+};
+
+export type SearchFormProps = {
+  searchType: string;
+  setSearchType: (value: string) => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
+  searchOptions: { value: string; name: string; url: string }[];
+  onSearch: () => void;
+  onClear: () => void;
 };
 
 export type Work = {
