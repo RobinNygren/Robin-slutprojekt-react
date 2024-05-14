@@ -5,11 +5,11 @@ import "./index.css";
 import Root from "./routes/Root";
 import NotFound from "./routes/NotFound";
 import Search from "./routes/Search";
-import MyBooks from "./routes/MyBooks";
 import BookDetails from "./routes/BookDetails";
 import AuthorDetails from "./routes/AuthorDetails";
 import Statistics from "./routes/Statistics";
 import { GlobalStateProvider } from "./components/GlobalStateProvider";
+import Favorites from "./routes/Favorites";
 
 const router = createBrowserRouter([
   {
@@ -22,8 +22,8 @@ const router = createBrowserRouter([
         element: <Search />,
       },
       {
-        path: "my-books",
-        element: <MyBooks />,
+        path: "favorites",
+        element: <Favorites />,
       },
       {
         path: "books/:id",

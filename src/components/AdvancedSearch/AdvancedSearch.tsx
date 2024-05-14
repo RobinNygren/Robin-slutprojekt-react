@@ -25,7 +25,6 @@ const AdvancedSearch: React.FC = () => {
   const [url, setUrl] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<React.ReactNode>(null);
-  const [modalActions, setModalActions] = useState<React.ReactNode>(null);
 
   const searchOptions = [
     {
@@ -39,10 +38,6 @@ const AdvancedSearch: React.FC = () => {
       url: "https://openlibrary.org/search/authors.json?q=",
     },
   ];
-
-  const currentUrl =
-    searchOptions.find((option) => option.value === searchType)?.url +
-    encodeURIComponent(debouncedSearchTerm);
 
   useEffect(() => {
     if (debouncedSearchTerm.trim() !== "") {
@@ -66,34 +61,30 @@ const AdvancedSearch: React.FC = () => {
     data: booksData,
     loading: booksLoading,
     error: booksError,
-  } = useFetch<BookApiResponse>(searchType === "title" ? currentUrl : "");
+  } = useFetch<BookApiResponse>(searchType === "title" ? url : "");
 
   const {
     data: authorsData,
     loading: authorsLoading,
     error: authorsError,
-  } = useFetch<AuthorApiResponse>(searchType === "author" ? currentUrl : "");
+  } = useFetch<AuthorApiResponse>(searchType === "author" ? url : "");
 
   const handleItemSelect = (item: Book | Author) => {
-    const itemActions = (
-      <>
-        <button onClick={() => console.log("Add to favorites")}>
-          Add to favorites
-        </button>
-        <button onClick={() => console.log("Add to as Read")}>
-          Add as Read
-        </button>
-      </>
-    );
-
-    const itemContent =
+    const content =
       searchType === "title" ? (
-        <BookCard book={item as Book} />
+        <BookCard
+          book={item as Book}
+          /* addFavoriteButton={false}
+          removeFavoriteButton={false} */
+        />
       ) : (
-        <AuthorCard author={item as Author} />
+        <AuthorCard
+          author={item as Author}
+          /* addFavoriteButton={true}
+          removeFavoriteButton={true} */
+        />
       );
-    setModalContent(itemContent);
-    setModalActions(itemActions);
+    setModalContent(content);
     setModalOpen(true);
   };
 
@@ -119,13 +110,13 @@ const AdvancedSearch: React.FC = () => {
           results={authorsData?.docs || []}
           type="authors"
           onItemClick={handleItemSelect}
+          addFavoriteButton={true}
         />
       )}
       <ModalManager
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         content={modalContent}
-        actions={modalActions}
       />
     </div>
   );

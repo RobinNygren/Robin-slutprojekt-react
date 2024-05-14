@@ -6,6 +6,7 @@ export type Book = {
   author_name: string[];
   first_publish_year?: number;
   key: string;
+  isFavorite?: boolean;
 };
 
 export type Author = {
@@ -17,6 +18,7 @@ export type Author = {
   top_work?: string;
   type?: string;
   work_count?: number;
+  isFavorite?: boolean;
 };
 
 export type AuthorApiResponse = {
@@ -68,10 +70,14 @@ export type CarouselProps = {
 
 export type BookCardProps = {
   book: Book;
+  addFavoriteButton?: boolean;
+  removeFavoriteButton?: boolean;
 };
 
 export type AuthorCardProps = {
   author: Author;
+  addFavoriteButton?: boolean;
+  removeFavoriteButton?: boolean;
 };
 export type ModalItem = Book | Author;
 
@@ -80,6 +86,9 @@ export type CardModalProps = {
   onClose: () => void;
   content: ReactNode;
   actions?: ReactNode;
+  addFavoriteButton?: boolean;
+  item?: ModalItem;
+  toggleFavorite?: (item: ModalItem) => void;
 };
 
 export type SearchInputProps = {
@@ -94,13 +103,16 @@ export type ResultListProps = {
   results: Book[] | Author[];
   type: "books" | "authors";
   onItemClick: (item: Book | Author) => void;
+  addFavoriteButton?: boolean;
 };
 
 export type ModalManagerProps = {
   isOpen: boolean;
   onClose: () => void;
   content: React.ReactNode;
-  actions: React.ReactNode;
+  addFavoriteButton?: boolean;
+  item?: ModalItem;
+  toggleFavorite?: (item: ModalItem) => void;
 };
 
 export type SearchFormProps = {
@@ -111,6 +123,12 @@ export type SearchFormProps = {
   searchOptions: { value: string; name: string; url: string }[];
   onSearch: () => void;
   onClear: () => void;
+};
+
+export type FavoriteButtonProps = {
+  item: ModalItem;
+  isFavorite: boolean;
+  toggleFavorite: (item: ModalItem) => void;
 };
 
 export type Work = {

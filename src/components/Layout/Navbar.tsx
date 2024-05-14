@@ -52,10 +52,10 @@ const Navbar = () => {
             </Menu.Items>
           </Menu>
           <NavLink
-            to="/my-books"
+            to="/favorites"
             className="px-4 py-2 hover:bg-bookFlix-colors-accent text-bookFlix-colors-detail"
           >
-            My Books
+            Favorites
           </NavLink>
           <NavLink
             to="/search"

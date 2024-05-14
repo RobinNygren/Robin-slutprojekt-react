@@ -5,14 +5,18 @@ const ModalManager: React.FC<ModalManagerProps> = ({
   isOpen,
   onClose,
   content,
-  actions,
+  addFavoriteButton = false,
+  item,
+  toggleFavorite,
 }) => {
   return (
     <CardModal
       isOpen={isOpen}
       onClose={onClose}
       content={content}
-      actions={actions}
+      addFavoriteButton={addFavoriteButton}
+      item={item}
+      toggleFavorite={toggleFavorite}
     />
   );
 };

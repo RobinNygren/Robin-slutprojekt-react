@@ -1,4 +1,4 @@
-import { ResultListProps } from "../../types/types";
+import { ResultListProps, Book, Author } from "../../types/types";
 import AuthorCard from "../AuthorCard/AuthorCard";
 import BookCard from "../BookCard/BookCard";
 
@@ -6,6 +6,7 @@ const ResultList: React.FC<ResultListProps> = ({
   results,
   type,
   onItemClick,
+  addFavoriteButton = false,
 }) => {
   return (
     <div className="flex flex-wrap gap-4 justify-center">
@@ -16,9 +17,15 @@ const ResultList: React.FC<ResultListProps> = ({
           className="cursor-pointer"
         >
           {type === "books" ? (
-            <BookCard book={item} />
+            <BookCard
+              book={item as Book}
+              addFavoriteButton={addFavoriteButton}
+            />
           ) : (
-            <AuthorCard author={item} />
+            <AuthorCard
+              author={item as Author}
+              addFavoriteButton={addFavoriteButton}
+            />
           )}
         </div>
       ))}
