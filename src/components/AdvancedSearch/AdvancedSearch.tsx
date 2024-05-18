@@ -14,6 +14,7 @@ import AuthorCard from "../AuthorCard/AuthorCard";
 import ModalManager from "../ModalManager/ModalManager";
 import SearchForm from "../SearchForm/SearchForm";
 import ResultList from "../ResultList/ResultList";
+import BookReview from "../BookReview/BookReview";
 
 const AdvancedSearch: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -72,11 +73,14 @@ const AdvancedSearch: React.FC = () => {
   const handleItemSelect = (item: Book | Author) => {
     const content =
       searchType === "title" ? (
-        <BookCard
-          book={item as Book}
-          /* addFavoriteButton={false}
+        <>
+          <BookCard
+            book={item as Book}
+            /* addFavoriteButton={false}
           removeFavoriteButton={false} */
-        />
+          />
+          <BookReview book={item as Book} onSubmit={handleReviewSubmit} />
+        </>
       ) : (
         <AuthorCard
           author={item as Author}
@@ -86,6 +90,15 @@ const AdvancedSearch: React.FC = () => {
       );
     setModalContent(content);
     setModalOpen(true);
+  };
+
+  const handleReviewSubmit = (reviewDetails: {
+    rating: number;
+    review: string;
+    totalPages: number;
+  }) => {
+    console.log(reviewDetails);
+    setModalOpen(false);
   };
 
   return (
@@ -113,11 +126,10 @@ const AdvancedSearch: React.FC = () => {
           addFavoriteButton={true}
         />
       )}
-      <ModalManager
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        content={modalContent}
-      />
+      <ModalManager isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+        {" "}
+        {modalContent}
+      </ModalManager>
     </div>
   );
 };

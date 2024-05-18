@@ -1,13 +1,15 @@
 import { useContext } from "react";
 import { GlobalStateContext } from "../../state/GlobalStateContext";
-import { Book, BookCardProps, ModalItem } from "../../types/types";
+import { Book, BookCardProps, BookDetails, ModalItem } from "../../types/types";
 import FavoriteButton from "../Buttons/FavoriteButton";
+import CheckmarkButton from "../Buttons/CheckMarkButton";
 
 const BookCard: React.FC<BookCardProps> = ({ book, addFavoriteButton }) => {
   const { state, dispatch } = useContext(GlobalStateContext);
   const isFavorite = state.favoriteBooks.some(
     (favBook) => favBook.key === book.key
   );
+  const isRead = !!state.readBooksDetails[book.key]?.read;
 
   const toggleFavorite = (book: Book) => {
     const actionType = isFavorite
@@ -17,6 +19,22 @@ const BookCard: React.FC<BookCardProps> = ({ book, addFavoriteButton }) => {
       type: actionType,
       payload: { ...book, isFavorite: !isFavorite },
     });
+  };
+
+  const toggleRead = (book: Book) => {
+    if (!isRead) {
+      const bookDetails: BookDetails = {
+        ...book,
+        read: true,
+        rating: 0,
+        review: "",
+        totalPages: 0,
+      };
+      dispatch({
+        type: "SET_BOOK_AS_READ",
+        payload: bookDetails,
+      });
+    }
   };
 
   return (
@@ -54,6 +72,11 @@ const BookCard: React.FC<BookCardProps> = ({ book, addFavoriteButton }) => {
             toggleFavorite={toggleFavorite as (item: ModalItem) => void}
           />
         )}
+        <CheckmarkButton
+          item={book}
+          isRead={isRead}
+          toggleRead={toggleRead as (item: ModalItem) => void}
+        />
       </div>
     </div>
   );

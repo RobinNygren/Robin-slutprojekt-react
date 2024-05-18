@@ -1,10 +1,14 @@
 import { createContext } from "react";
-import { GlobalState, Action, Book, Author, ApiResponse } from "../types/types";
+import { GlobalState, Action, Book, Author } from "../types/types";
 
-export const initialState = {
+export const initialState: GlobalState = {
   favoriteBooks: [] as Book[],
   favoriteAuthors: [] as Author[],
-  statistics: [] as ApiResponse[],
+  statistics: { totalBooksRead: 0, totalPagesRead: 0 },
+  readBooks: [] as Book[],
+  readBooksDetails: {},
+  modalOpen: false,
+  selectedBook: null,
 };
 
 export const GlobalStateContext = createContext<{

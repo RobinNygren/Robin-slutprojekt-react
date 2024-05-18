@@ -50,10 +50,11 @@ const Favorites = () => {
       <ModalManager
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        content={modalContent}
         addFavoriteButton={false}
         item={selectedItem}
-      ></ModalManager>
+      >
+        {modalContent}
+      </ModalManager>
     </>
   );
 };

@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import BookDetails from "../routes/BookDetails";
 
 export type Book = {
   title: string;
@@ -47,7 +48,11 @@ export type ApiResponse = {
 export type GlobalState = {
   favoriteBooks: Book[];
   favoriteAuthors: Author[];
-  statistics: ApiResponse[];
+  statistics: Statistics;
+  readBooks: Book[];
+  readBooksDetails: Record<string, BookDetails>;
+  modalOpen: boolean;
+  selectedBook: BookDetails | null;
 };
 
 export type GlobalStateProviderProp = {
@@ -59,7 +64,10 @@ export type Action =
   | { type: "REMOVE_FAVORITE_BOOK"; payload: Book }
   | { type: "ADD_FAVORITE_AUTHOR"; payload: Author }
   | { type: "REMOVE_FAVORITE_AUTHOR"; payload: Author }
-  | { type: "ADD_STATISTICS"; payload: ApiResponse };
+  | { type: "SET_BOOK_AS_READ"; payload: Book }
+  | { type: "UPDATE_BOOK_REVIEW"; payload: BookDetails }
+  | { type: "SET_MODAL_OPEN"; payload: BookDetails }
+  | { type: "SET_MODAL_CLOSED" };
 
 export type CarouselProps = {
   children: React.ReactNode;
@@ -109,10 +117,15 @@ export type ResultListProps = {
 export type ModalManagerProps = {
   isOpen: boolean;
   onClose: () => void;
-  content: React.ReactNode;
+  children: React.ReactNode;
   addFavoriteButton?: boolean;
   item?: ModalItem;
   toggleFavorite?: (item: ModalItem) => void;
+  onBookSubmit?: (details: {
+    rating: number;
+    review: string;
+    totalPages: number;
+  }) => void;
 };
 
 export type SearchFormProps = {
@@ -129,6 +142,12 @@ export type FavoriteButtonProps = {
   item: ModalItem;
   isFavorite: boolean;
   toggleFavorite: (item: ModalItem) => void;
+};
+
+export type CheckmarkButtonProps = {
+  item: ModalItem;
+  isRead: boolean;
+  toggleRead: (item: ModalItem) => void;
 };
 
 export type Work = {
@@ -169,4 +188,33 @@ export type Work = {
     is_browseable: boolean;
     __src__: string;
   };
+};
+
+export type BookDetails = Book & {
+  key: string;
+  title: string;
+  read: boolean;
+  rating?: number;
+  review?: string;
+  totalPages?: number;
+};
+
+export type Statistics = {
+  totalBooksRead: number;
+  totalPagesRead: number;
+};
+
+export type BookReviewProps = {
+  book: BookDetails;
+  onSubmit: (details: {
+    rating: number;
+    review: string;
+    totalPages: number;
+  }) => void;
+};
+
+export type StarRatingProps = {
+  count: number;
+  value: number;
+  onChange: (value: number) => void;
 };
