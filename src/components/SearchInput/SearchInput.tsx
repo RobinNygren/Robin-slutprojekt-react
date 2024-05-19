@@ -1,4 +1,3 @@
-import { Listbox } from "@headlessui/react";
 import { SearchInputProps } from "../../types/types";
 import React from "react";
 
@@ -10,41 +9,30 @@ const SearchInput: React.FC<SearchInputProps> = ({
   searchOptions,
 }) => {
   return (
-    <>
-      <Listbox value={searchType} onChange={setSearchType}>
-        <Listbox.Button className="btn btn-block">
-          {searchOptions.find((option) => option.value === searchType)?.name}
-        </Listbox.Button>
-        <Listbox.Options className="absolute z-10 w-full mt-1 overflow-auto bg-white border border-gray-200 rounded-md shadow-lg max-h-60">
-          {searchOptions.map((option, index) => (
-            <Listbox.Option
-              key={index}
-              value={option.value}
-              as={React.Fragment}
-            >
-              {({ active }) => (
-                <li
-                  className={`cursor-pointer select-none relative p-2 ${
-                    active ? "bg-blue-500 text-white" : "text-gray-900"
-                  }`}
-                >
-                  {option.name}
-                </li>
-              )}
-            </Listbox.Option>
+    <div className="mb-4">
+      <div className="mb-2">
+        <select
+          value={searchType}
+          onChange={(e) => setSearchType(e.target.value)}
+          className="p-2 bg-bookFlix-colors-background text-bookFlix-colors-secondary border border-bookFlix-colors-accent rounded-md"
+        >
+          {searchOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.name}
+            </option>
           ))}
-        </Listbox.Options>
-      </Listbox>
-      <input
-        type="text"
-        placeholder={
-          searchOptions.find((option) => option.value === searchType)?.name
-        }
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="input input-bordered w-full max-w-xs"
-      />
-    </>
+        </select>
+      </div>
+      <div className="mb-2">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search..."
+          className="p-2 bg-bookFlix-colors-background text-bookFlix-colors-secondary border border-bookFlix-colors-accent rounded-md"
+        />
+      </div>
+    </div>
   );
 };
 

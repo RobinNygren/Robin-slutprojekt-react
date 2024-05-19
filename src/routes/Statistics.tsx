@@ -39,17 +39,40 @@ const Statistics: React.FC = () => {
     setModalOpen(false);
   };
 
+  const totalReadBooks = readBooks.length;
+  const totalFavoriteBooks = state.favoriteBooks.length;
+  const totalPagesRead = readBooks.reduce(
+    (total, book) => total + (book.totalPages || 0),
+    0
+  );
+
+  const totalRating = readBooks.reduce(
+    (total, book) => total + (book.rating || 0),
+    0
+  );
+  const averageRating = totalReadBooks > 0 ? totalRating / totalReadBooks : 0;
+
+  const averageLength =
+    totalReadBooks > 0 ? totalPagesRead / totalReadBooks : 0;
+
   return (
     <div className="min-h-screen bg-bookFlix-colors-background text-bookFlix-colors-secondary p-6">
       <h1 className="text-3xl font-bold text-bookFlix-colors-detail mb-4">
         Statistics
       </h1>
+      <h2 className="text-xl mb-2">Total books read: {totalReadBooks}</h2>
       <h2 className="text-xl mb-2">
-        Total books read: {state.statistics.totalBooksRead}
+        Total favorite books: {totalFavoriteBooks}
       </h2>
-      <h2 className="text-xl mb-4">
-        Total pages read: {state.statistics.totalPagesRead}
-      </h2>
+      <h2 className="text-xl mb-4">Total pages read: {totalPagesRead}</h2>
+      <div className="mb-4">
+        <p className="text-xl mb-2">
+          Average rating of read books: {averageRating.toFixed(2)}
+        </p>
+        <p className="text-xl mb-2">
+          Average number of pages of read books: {averageLength.toFixed(2)}
+        </p>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {readBooks.map((book) => (
           <div

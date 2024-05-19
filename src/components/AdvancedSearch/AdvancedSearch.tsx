@@ -80,15 +80,6 @@ const AdvancedSearch: React.FC = () => {
     setModalOpen(true);
   };
 
-  const handleReviewSubmit = (reviewDetails: {
-    rating: number;
-    review: string;
-    totalPages: number;
-  }) => {
-    console.log(reviewDetails);
-    setModalOpen(false);
-  };
-
   return (
     <div className="bg-bookFlix-colors-background text-bookFlix-colors-secondary p-4 rounded shadow-md">
       <SearchForm
@@ -100,20 +91,31 @@ const AdvancedSearch: React.FC = () => {
         onSearch={onSearch}
         onClear={clearSearch}
       />
-      {searchType === "title" ? (
-        <ResultList
-          results={booksData?.docs || []}
-          type="books"
-          onItemClick={handleItemSelect}
-        />
-      ) : (
-        <ResultList
-          results={authorsData?.docs || []}
-          type="authors"
-          onItemClick={handleItemSelect}
-          addFavoriteButton={true}
-        />
-      )}
+      <div className="mt-4">
+        {booksLoading || authorsLoading ? (
+          <div>Loading...</div>
+        ) : booksError || authorsError ? (
+          <div>Error: {booksError || authorsError}</div>
+        ) : (
+          <>
+            {searchType === "title" ? (
+              <ResultList
+                results={booksData?.docs || []}
+                type="books"
+                onItemClick={handleItemSelect}
+                addFavoriteButton={true}
+              />
+            ) : (
+              <ResultList
+                results={authorsData?.docs || []}
+                type="authors"
+                onItemClick={handleItemSelect}
+                addFavoriteButton={true}
+              />
+            )}
+          </>
+        )}
+      </div>
       <ModalManager isOpen={modalOpen} onClose={() => setModalOpen(false)}>
         {" "}
         {modalContent}

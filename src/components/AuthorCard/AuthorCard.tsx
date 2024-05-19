@@ -21,6 +21,7 @@ const AuthorCard: React.FC<AuthorCardProps> = ({
       payload: { ...author, isFavorite: !isFavorite },
     });
   };
+
   return (
     <div className="mx-2 flex-none w-30 cursor-pointer bg-bookFlix-colors-primary p-4 shadow rounded-lg">
       <div
@@ -34,8 +35,8 @@ const AuthorCard: React.FC<AuthorCardProps> = ({
             className="max-h-60 w-auto object-cover"
           />
         ) : (
-          <div className="h-full w-full flex items-center justify-center bg-gray-200">
-            <p>No image available</p>
+          <div className="h-full w-full flex items-center justify-center bg-gray-200 ">
+            <p className="text-bookFlix-colors-secondary">No image available</p>
           </div>
         )}
       </div>

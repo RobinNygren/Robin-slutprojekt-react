@@ -34,7 +34,7 @@ const CardModal: React.FC<CardModalProps> = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-bookFlix-colors-secondary p-2 text-left align-middle shadow-xl transition-all">
                 {content}
                 {actions && (
                   <div className="mt-4 flex justify-center">{actions}</div>

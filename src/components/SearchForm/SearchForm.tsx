@@ -25,10 +25,21 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setSearchTerm={setSearchTerm}
         searchOptions={searchOptions}
       />
-      <button type="submit">Search</button>
-      <button type="button" onClick={onClear}>
-        Clear
-      </button>
+      <div className="flex space-x-2">
+        <button
+          type="submit"
+          className="p-2 bg-bookFlix-colors-accent text-white rounded-md"
+        >
+          Search
+        </button>
+        <button
+          type="button"
+          onClick={onClear}
+          className="p-2 bg-bookFlix-colors-accent text-white rounded-md"
+        >
+          Clear
+        </button>
+      </div>
     </form>
   );
 };

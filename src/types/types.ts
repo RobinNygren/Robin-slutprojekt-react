@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import BookDetails from "../routes/BookDetails";
 
 export type Book = {
   title: string;

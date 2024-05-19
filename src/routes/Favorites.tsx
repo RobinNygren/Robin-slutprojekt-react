@@ -29,7 +29,9 @@ const Favorites = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-bold text-center">My Favorites</h1>
+      <h1 className=" text-2xl text-bookFlix-colors-detail mb-4 font-bold text-center">
+        My Favorites
+      </h1>
       <Carousel title="Books">
         {favoriteBooks.map((book) => (
           <div key={book.key} onClick={() => handleItemSelect(book, "book")}>

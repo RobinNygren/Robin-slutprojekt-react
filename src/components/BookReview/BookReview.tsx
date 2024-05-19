@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BookDetails, BookReviewProps } from "../../types/types";
+import { BookReviewProps } from "../../types/types";
 import StarRating from "../StarRating/StarRating";
 
 const BookReview: React.FC<BookReviewProps> = ({ book, onSubmit }) => {
