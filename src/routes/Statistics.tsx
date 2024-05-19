@@ -4,6 +4,7 @@ import BookCard from "../components/BookCard/BookCard";
 import ModalManager from "../components/ModalManager/ModalManager";
 import BookReview from "../components/BookReview/BookReview";
 import { BookDetails } from "../types/types";
+import StarRating from "../components/StarRating/StarRating";
 
 const Statistics: React.FC = () => {
   const { state, dispatch } = useContext(GlobalStateContext);
@@ -61,7 +62,9 @@ const Statistics: React.FC = () => {
               <div className="p-4 bg-bookFlix-colors-primary rounded-md mt-2">
                 <p className="text-lg font-semibold">Your Review:</p>
                 <p>{book.review}</p>
-                <p className="mt-2">Rating: {book.rating}/5</p>
+                <div className="mt-2">
+                  <StarRating count={5} value={book.rating ?? 0} />
+                </div>
                 <p>Total Pages: {book.totalPages}</p>
               </div>
             )}

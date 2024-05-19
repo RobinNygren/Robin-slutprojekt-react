@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import Carousel from "../Carousel/Carousel";
 import useFetch from "../../hooks/useFetch";
-import { ApiResponse, Book, Work } from "../../types/types";
+import { ApiResponse, Book, BookDetails, Work } from "../../types/types";
 import BookCard from "../BookCard/BookCard";
 import ModalManager from "../ModalManager/ModalManager";
-import BookReview from "../BookReview/BookReview";
 
 const CarouselManager: React.FC = () => {
   const {
@@ -28,22 +27,19 @@ const CarouselManager: React.FC = () => {
 
   const handleBookClick = (book: Book) => {
     setSelectedBook(book);
+    const bookDetails: BookDetails = {
+      ...book,
+      read: false,
+      rating: 0,
+      review: "",
+      totalPages: 0,
+    };
     setModalContent(
       <>
-        <BookCard book={book} addFavoriteButton={true} />{" "}
-        <BookReview book={book} onSubmit={handleReviewSubmit} />
+        <BookCard book={book} addFavoriteButton={true} />
       </>
     );
     setModalOpen(true);
-  };
-
-  const handleReviewSubmit = (reviewDetails: {
-    rating: number;
-    review: string;
-    totalPages: number;
-  }) => {
-    console.log(reviewDetails);
-    setModalOpen(false);
   };
 
   const renderBookItems = (works: Work[]): Book[] =>
@@ -114,7 +110,6 @@ const CarouselManager: React.FC = () => {
               isOpen={modalOpen}
               onClose={() => setModalOpen(false)}
             >
-              {/* <BookCard book={selectedBook} addFavoriteButton={true} /> */}
               {modalContent}
             </ModalManager>
           )}

@@ -14,7 +14,6 @@ import AuthorCard from "../AuthorCard/AuthorCard";
 import ModalManager from "../ModalManager/ModalManager";
 import SearchForm from "../SearchForm/SearchForm";
 import ResultList from "../ResultList/ResultList";
-import BookReview from "../BookReview/BookReview";
 
 const AdvancedSearch: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -73,20 +72,9 @@ const AdvancedSearch: React.FC = () => {
   const handleItemSelect = (item: Book | Author) => {
     const content =
       searchType === "title" ? (
-        <>
-          <BookCard
-            book={item as Book}
-            /* addFavoriteButton={false}
-          removeFavoriteButton={false} */
-          />
-          <BookReview book={item as Book} onSubmit={handleReviewSubmit} />
-        </>
+        <BookCard book={item as Book} addFavoriteButton={true} />
       ) : (
-        <AuthorCard
-          author={item as Author}
-          /* addFavoriteButton={true}
-          removeFavoriteButton={true} */
-        />
+        <AuthorCard author={item as Author} addFavoriteButton={true} />
       );
     setModalContent(content);
     setModalOpen(true);
@@ -102,7 +90,7 @@ const AdvancedSearch: React.FC = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="bg-bookFlix-colors-background text-bookFlix-colors-secondary p-4 rounded shadow-md">
       <SearchForm
         searchType={searchType}
         setSearchType={setSearchType}

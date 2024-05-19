@@ -216,5 +216,5 @@ export type BookReviewProps = {
 export type StarRatingProps = {
   count: number;
   value: number;
-  onChange: (value: number) => void;
+  onChange?: (value: number) => void;
 };

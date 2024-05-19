@@ -38,9 +38,9 @@ const BookCard: React.FC<BookCardProps> = ({ book, addFavoriteButton }) => {
   };
 
   return (
-    <div className="mx-2 flex-none w-30 cursor-pointer">
+    <div className="mx-2 flex-none w-30 cursor-pointer bg-bookFlix-colors-primary p-4 shadow rounded-lg">
       <div
-        className="flex justify-center items-center mb-4"
+        className="relative flex justify-center items-center mb-4"
         style={{ minHeight: "250px" }}
       >
         {book.cover_i ? (
@@ -53,6 +53,11 @@ const BookCard: React.FC<BookCardProps> = ({ book, addFavoriteButton }) => {
           <div className="h-full w-full flex items-center justify-center bg-gray-200">
             <p>No cover available</p>
           </div>
+        )}
+        {isRead && (
+          <span className="absolute top-2 left-2 bg-bookFlix-colors-accent text-bookFlix-colors-background text-xs font-bold px-2 py-1 rounded">
+            Read
+          </span>
         )}
       </div>
       <div className="text-center flex-grow">

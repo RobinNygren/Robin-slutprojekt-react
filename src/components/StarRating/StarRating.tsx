@@ -1,17 +1,39 @@
 import React, { useState } from "react";
 import { StarRatingProps } from "../../types/types";
 
-const StarRating: React.FC<StarRatingProps> = ({ count, value, onChange }) => {
+const StarRating: React.FC<StarRatingProps> = ({
+  count,
+  value = 0,
+  onChange,
+}) => {
   const [hovered, setHovered] = useState(0);
+
+  const handleMouseEnter = (star: number) => {
+    if (onChange) {
+      setHovered(star);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (onChange) {
+      setHovered(0);
+    }
+  };
+
+  const handleClick = (star: number) => {
+    if (onChange) {
+      onChange(star);
+    }
+  };
   return (
     <div className="flex">
       {Array.from({ length: count }, (_, i) => i + 1).map((star) => (
         <Star
           key={star}
           filled={star <= (hovered || value)}
-          onMouseEnter={() => setHovered(star)}
-          onMouseLeave={() => setHovered(0)}
-          onClick={() => onChange(star)}
+          onMouseEnter={() => handleMouseEnter(star)}
+          onMouseLeave={handleMouseLeave}
+          onClick={() => handleClick(star)}
         />
       ))}
     </div>
