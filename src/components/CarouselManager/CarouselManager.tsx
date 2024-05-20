@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Carousel from "../Carousel/Carousel";
 import useFetch from "../../hooks/useFetch";
-import { ApiResponse, Book, BookDetails, Work } from "../../types/types";
+import { ApiResponse, Book, Work } from "../../types/types";
 import BookCard from "../BookCard/BookCard";
 import ModalManager from "../ModalManager/ModalManager";
 
@@ -27,13 +27,6 @@ const CarouselManager: React.FC = () => {
 
   const handleBookClick = (book: Book) => {
     setSelectedBook(book);
-    const bookDetails: BookDetails = {
-      ...book,
-      read: false,
-      rating: 0,
-      review: "",
-      totalPages: 0,
-    };
     setModalContent(
       <>
         <BookCard book={book} addFavoriteButton={true} />
@@ -44,6 +37,7 @@ const CarouselManager: React.FC = () => {
 
   const renderBookItems = (works: Work[]): Book[] =>
     works.map((work) => ({
+      // mappar ut works till Book-objekt
       title: work.title,
       cover_i: work.cover_id || 0,
       author_name: work.authors.map((author) => author.name),
@@ -69,10 +63,6 @@ const CarouselManager: React.FC = () => {
                     <BookCard
                       key={book.key}
                       book={book}
-                      /* title={item.title}
-                    cover_i={item.cover_i}
-                    author_name={item.author_name}
-                    first_publish_year={item.first_publish_year} */
                       addFavoriteButton={true}
                     />
                   </div>
@@ -92,10 +82,6 @@ const CarouselManager: React.FC = () => {
                     <BookCard
                       key={book.key}
                       book={book}
-                      /* title={item.title}
-                    cover_i={item.cover_i}
-                    author_name={item.author_name}
-                    first_publish_year={item.first_publish_year} */
                       addFavoriteButton={true}
                     />
                   </div>

@@ -40,6 +40,7 @@ const AdvancedSearch: React.FC = () => {
   ];
 
   useEffect(() => {
+    // useEffect uppdaterar url och searchParams när debouncedSearchTerm eller searchType ändras.
     if (debouncedSearchTerm.trim() !== "") {
       const newUrl =
         searchOptions.find((option) => option.value === searchType)?.url +
@@ -50,6 +51,7 @@ const AdvancedSearch: React.FC = () => {
   }, [debouncedSearchTerm, searchType, setSearchParams]);
 
   const onSearch = () => {
+    // onSearch funktion uppdaterar URL och sökparametrar när användaren utför en sökning.
     const newUrl =
       searchOptions.find((option) => option.value === searchType)?.url +
       encodeURIComponent(searchTerm);

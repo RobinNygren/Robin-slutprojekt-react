@@ -5,18 +5,20 @@ import { CarouselProps } from "../../types/types";
 
 const Carousel: React.FC<CarouselProps> = ({ title, children }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const slides = React.Children.toArray(children);
+  const slides = React.Children.toArray(children); // konvertera children till en array
   const itemsPerPage = 5;
-  const totalItems = slides.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const totalItems = slides.length; // antal slides
+  const totalPages = Math.ceil(totalItems / itemsPerPage); // antal sidor
 
   const next = () => {
+    // navigera till nästa slide genom att öka på currentIndex
     setCurrentIndex((currentIndex) => {
       return (currentIndex + 1) % totalPages;
     });
   };
 
   const prev = () => {
+    // navigera till föregående slide genom att minska currentIndex
     setCurrentIndex((currentIndex) => {
       return (currentIndex - 1 + totalPages) % totalPages;
     });
