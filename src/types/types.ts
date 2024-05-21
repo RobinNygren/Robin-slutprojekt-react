@@ -196,6 +196,7 @@ export type BookDetails = Book & {
   rating?: number;
   review?: string;
   totalPages?: number;
+  totalRating?: number;
 };
 
 export type Statistics = {

@@ -33,7 +33,7 @@ const BookReview: React.FC<BookReviewProps> = ({ book, onSubmit }) => {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-300">
-            Total Pages
+            Total Pages Read
           </label>
           <input
             type="number"

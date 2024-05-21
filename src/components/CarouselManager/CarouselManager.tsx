@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Carousel from "../Carousel/Carousel";
 import useFetch from "../../hooks/useFetch";
-import { ApiResponse, Book, BookDetails, Work } from "../../types/types";
+import { ApiResponse, Book, BookDetails } from "../../types/types";
 import BookCard from "../BookCard/BookCard";
 import ModalManager from "../ModalManager/ModalManager";
+import { mapWorkToBook } from "../../utils/mapWorkToBook";
 
 const CarouselManager: React.FC = () => {
   const {
@@ -42,15 +43,6 @@ const CarouselManager: React.FC = () => {
     setModalOpen(true);
   };
 
-  const renderBookItems = (works: Work[]): Book[] =>
-    works.map((work) => ({
-      title: work.title,
-      cover_i: work.cover_id || 0,
-      author_name: work.authors.map((author) => author.name),
-      first_publish_year: work.first_publish_year || 0,
-      key: work.key,
-    }));
-
   const isLoading = sciFiBooksLoading || loveBooksLoading;
 
   return (
@@ -64,7 +56,7 @@ const CarouselManager: React.FC = () => {
           ) : (
             <Carousel title="Sci-Fi">
               {sciFiBooks && sciFiBooks.works && sciFiBooks.works.length > 0 ? (
-                renderBookItems(sciFiBooks.works).map((book) => (
+                mapWorkToBook(sciFiBooks.works).map((book) => (
                   <div onClick={() => handleBookClick(book)}>
                     <BookCard
                       key={book.key}
@@ -87,7 +79,7 @@ const CarouselManager: React.FC = () => {
           ) : (
             <Carousel title="Love">
               {loveBooks && loveBooks.works && loveBooks.works.length > 0 ? (
-                renderBookItems(loveBooks.works).map((book) => (
+                mapWorkToBook(loveBooks.works).map((book) => (
                   <div onClick={() => handleBookClick(book)}>
                     <BookCard
                       key={book.key}
