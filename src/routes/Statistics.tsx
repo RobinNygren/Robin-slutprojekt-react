@@ -1,10 +1,17 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { GlobalStateContext } from "../state/GlobalStateContext";
 import BookCard from "../components/BookCard/BookCard";
 import ModalManager from "../components/ModalManager/ModalManager";
 import BookReview from "../components/BookReview/BookReview";
 import { BookDetails } from "../types/types";
 import StarRating from "../components/StarRating/StarRating";
+import useModal from "../hooks/useModal";
+import {
+  calculateAverageLength,
+  calculateAverageRating,
+  calculateTotalPagesRead,
+  calculateTotalRating,
+} from "../utils/calculateStatistic";
 
 const Statistics: React.FC = () => {
   const { state, dispatch } = useContext(GlobalStateContext);
@@ -12,12 +19,17 @@ const Statistics: React.FC = () => {
     (book) => book.read
   );
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedBook, setSelectedBook] = useState<BookDetails | null>(null);
+  const totalReadBooks = readBooks.length;
+  const totalFavoriteBooks = state.favoriteBooks.length;
+  const totalPagesRead = calculateTotalPagesRead(readBooks);
+  const averageRating = calculateAverageRating(readBooks);
+  const averageLength = calculateAverageLength(readBooks);
+  const totalRating = calculateTotalRating(readBooks);
+
+  const { modalOpen, selectedItem, openModal, closeModal } = useModal();
 
   const handleBookClick = (book: BookDetails) => {
-    setSelectedBook(book);
-    setModalOpen(true);
+    openModal(book);
   };
 
   const handleReviewSubmit = (details: {
@@ -25,35 +37,19 @@ const Statistics: React.FC = () => {
     review: string;
     totalPages: number;
   }) => {
-    if (selectedBook) {
+    if (selectedItem) {
       dispatch({
         type: "UPDATE_BOOK_REVIEW",
         payload: {
-          ...selectedBook,
+          ...selectedItem,
           rating: details.rating,
           review: details.review,
           totalPages: details.totalPages,
         },
       });
     }
-    setModalOpen(false);
+    closeModal();
   };
-
-  const totalReadBooks = readBooks.length;
-  const totalFavoriteBooks = state.favoriteBooks.length;
-  const totalPagesRead = readBooks.reduce(
-    (total, book) => total + (book.totalPages || 0),
-    0
-  );
-
-  const totalRating = readBooks.reduce(
-    (total, book) => total + (book.rating || 0),
-    0
-  );
-  const averageRating = totalReadBooks > 0 ? totalRating / totalReadBooks : 0;
-
-  const averageLength =
-    totalReadBooks > 0 ? totalPagesRead / totalReadBooks : 0;
 
   return (
     <div className="min-h-screen bg-bookFlix-colors-background text-bookFlix-colors-secondary p-6">
@@ -72,6 +68,9 @@ const Statistics: React.FC = () => {
         <p className="text-xl mb-2">
           Average number of pages of read books: {averageLength.toFixed(2)}
         </p>
+        <p className="text-xl mb-2">
+          Total rating of read books: {totalRating}
+        </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {readBooks.map((book) => (
@@ -88,20 +87,20 @@ const Statistics: React.FC = () => {
                 <div className="mt-2">
                   <StarRating count={5} value={book.rating ?? 0} />
                 </div>
-                <p>Total Pages: {book.totalPages}</p>
+                <p>Total Pages Read: {book.totalPages}</p>
               </div>
             )}
           </div>
         ))}
       </div>
-      {modalOpen && selectedBook && (
+      {modalOpen && selectedItem && (
         <ModalManager
           isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
+          onClose={closeModal}
           addFavoriteButton={false}
-          item={selectedBook}
+          item={selectedItem}
         >
-          <BookReview book={selectedBook} onSubmit={handleReviewSubmit} />
+          <BookReview book={selectedItem} onSubmit={handleReviewSubmit} />
         </ModalManager>
       )}
     </div>
