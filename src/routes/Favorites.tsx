@@ -5,26 +5,15 @@ import Carousel from "../components/Carousel/Carousel";
 import AuthorCard from "../components/AuthorCard/AuthorCard";
 import ModalManager from "../components/ModalManager/ModalManager";
 import { Author, Book } from "../types/types";
+import useModal from "../hooks/useModal";
 
 const Favorites = () => {
   const { state } = useContext(GlobalStateContext);
   const { favoriteBooks, favoriteAuthors } = state;
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<React.ReactNode>(null);
-  const [selectedItem, setSelectedItem] = useState<Book | Author | undefined>(
-    undefined
-  );
+  const { modalOpen, selectedItem, openModal, closeModal } = useModal();
 
-  const handleItemSelect = (item: Book | Author, type: "book" | "author") => {
-    setSelectedItem(item);
-    const content =
-      type === "book" ? (
-        <BookCard book={item as Book} addFavoriteButton={false} />
-      ) : (
-        <AuthorCard author={item as Author} addFavoriteButton={false} />
-      );
-    setModalContent(content);
-    setModalOpen(true);
+  const handleItemSelect = (item: Book | Author) => {
+    openModal(item);
   };
 
   return (
@@ -34,29 +23,35 @@ const Favorites = () => {
       </h1>
       <Carousel title="Books">
         {favoriteBooks.map((book) => (
-          <div key={book.key} onClick={() => handleItemSelect(book, "book")}>
+          <div key={book.key} onClick={() => handleItemSelect(book)}>
             <BookCard book={book} addFavoriteButton={true} />
           </div>
         ))}
       </Carousel>
       <Carousel title="Authors">
         {favoriteAuthors.map((author) => (
-          <div
-            key={author.key}
-            onClick={() => handleItemSelect(author, "author")}
-          >
+          <div key={author.key} onClick={() => handleItemSelect(author)}>
             <AuthorCard author={author} addFavoriteButton={true} />
           </div>
         ))}
       </Carousel>
-      <ModalManager
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        addFavoriteButton={false}
-        item={selectedItem}
-      >
-        {modalContent}
-      </ModalManager>
+      {modalOpen && selectedItem && (
+        <ModalManager
+          isOpen={modalOpen}
+          onClose={closeModal}
+          addFavoriteButton={false}
+          item={selectedItem}
+        >
+          {"title" in selectedItem ? (
+            <BookCard book={selectedItem as Book} addFavoriteButton={false} />
+          ) : (
+            <AuthorCard
+              author={selectedItem as Author}
+              addFavoriteButton={false}
+            />
+          )}
+        </ModalManager>
+      )}
     </>
   );
 };

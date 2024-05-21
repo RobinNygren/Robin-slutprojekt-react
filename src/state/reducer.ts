@@ -68,18 +68,6 @@ const reducer = (state: GlobalState, action: Action) => {
         },
       };
 
-    case "SET_MODAL_OPEN":
-      return {
-        ...state,
-        modalOpen: true,
-        selectedBook: action.payload,
-      };
-    case "SET_MODAL_CLOSED":
-      return {
-        ...state,
-        modalOpen: false,
-        selectedBook: null,
-      };
     default:
       return state;
   }

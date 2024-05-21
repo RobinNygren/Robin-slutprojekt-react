@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Carousel from "../Carousel/Carousel";
 import useFetch from "../../hooks/useFetch";
-import { ApiResponse, Book, BookDetails } from "../../types/types";
+import { ApiResponse, Book } from "../../types/types";
 import BookCard from "../BookCard/BookCard";
 import ModalManager from "../ModalManager/ModalManager";
 import { mapWorkToBook } from "../../utils/mapWorkToBook";

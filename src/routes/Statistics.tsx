@@ -37,15 +37,18 @@ const Statistics: React.FC = () => {
     review: string;
     totalPages: number;
   }) => {
-    if (selectedItem) {
+    if (selectedItem && "read" in selectedItem) {
+      const updatedBook: BookDetails = {
+        ...selectedItem,
+        rating: details.rating,
+        review: details.review,
+        totalPages: details.totalPages,
+        read: (selectedItem as BookDetails).read || false,
+      };
+
       dispatch({
         type: "UPDATE_BOOK_REVIEW",
-        payload: {
-          ...selectedItem,
-          rating: details.rating,
-          review: details.review,
-          totalPages: details.totalPages,
-        },
+        payload: updatedBook,
       });
     }
     closeModal();
@@ -100,7 +103,10 @@ const Statistics: React.FC = () => {
           addFavoriteButton={false}
           item={selectedItem}
         >
-          <BookReview book={selectedItem} onSubmit={handleReviewSubmit} />
+          <BookReview
+            book={selectedItem as BookDetails}
+            onSubmit={handleReviewSubmit}
+          />
         </ModalManager>
       )}
     </div>

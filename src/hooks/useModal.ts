@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { BookDetails } from "../types/types";
+import { ModalItem } from "../types/types";
 
 const useModal = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<BookDetails | null>(null);
+  const [selectedItem, setSelectedItem] = useState<ModalItem | null>(null);
 
-  const openModal = (item: BookDetails) => {
+  const openModal = (item: ModalItem) => {
     setSelectedItem(item);
     setModalOpen(true);
   };

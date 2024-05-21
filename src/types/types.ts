@@ -86,7 +86,7 @@ export type AuthorCardProps = {
   addFavoriteButton?: boolean;
   removeFavoriteButton?: boolean;
 };
-export type ModalItem = Book | Author;
+export type ModalItem = Book | Author | BookDetails;
 
 export type CardModalProps = {
   isOpen: boolean;
