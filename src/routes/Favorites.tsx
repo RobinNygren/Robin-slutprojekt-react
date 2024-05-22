@@ -43,11 +43,11 @@ const Favorites = () => {
           item={selectedItem}
         >
           {"title" in selectedItem ? (
-            <BookCard book={selectedItem as Book} addFavoriteButton={false} />
+            <BookCard book={selectedItem as Book} addFavoriteButton={true} />
           ) : (
             <AuthorCard
               author={selectedItem as Author}
-              addFavoriteButton={false}
+              addFavoriteButton={true}
             />
           )}
         </ModalManager>

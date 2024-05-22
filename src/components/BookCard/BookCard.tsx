@@ -7,9 +7,10 @@ import CheckmarkButton from "../Buttons/CheckMarkButton";
 const BookCard: React.FC<BookCardProps> = ({ book, addFavoriteButton }) => {
   const { state, dispatch } = useContext(GlobalStateContext);
   const isFavorite = state.favoriteBooks.some(
+    // check if book is in favoriteBooks
     (favBook) => favBook.key === book.key
   );
-  const isRead = !!state.readBooksDetails[book.key]?.read;
+  const isRead = !!state.readBooksDetails[book.key]?.read; // check if book is in readBooksDetails
 
   const toggleFavorite = (book: Book) => {
     const actionType = isFavorite
@@ -29,7 +30,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, addFavoriteButton }) => {
         rating: 0,
         review: "",
         totalPages: 0,
-      };
+      }; // Creating a BookDetails object with the book details
       dispatch({
         type: "SET_BOOK_AS_READ",
         payload: bookDetails,

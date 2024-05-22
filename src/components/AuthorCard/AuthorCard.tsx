@@ -9,6 +9,7 @@ const AuthorCard: React.FC<AuthorCardProps> = ({
 }) => {
   const { state, dispatch } = useContext(GlobalStateContext);
   const isFavorite = state.favoriteAuthors.some(
+    // check if author is in favoriteAuthors
     (favAuthor) => favAuthor.key === author.key
   );
 

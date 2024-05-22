@@ -5,6 +5,7 @@ import { ApiResponse, Book } from "../../types/types";
 import BookCard from "../BookCard/BookCard";
 import ModalManager from "../ModalManager/ModalManager";
 import { mapWorkToBook } from "../../utils/mapWorkToBook";
+import useModal from "../../hooks/useModal";
 
 const CarouselManager: React.FC = () => {
   const {
@@ -22,18 +23,10 @@ const CarouselManager: React.FC = () => {
     "https://openlibrary.org/subjects/love.json?limit=25"
   );
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
-  const [modalContent, setModalContent] = useState<React.ReactNode>(null);
+  const { modalOpen, selectedItem, openModal, closeModal } = useModal();
 
   const handleBookClick = (book: Book) => {
-    setSelectedBook(book);
-    setModalContent(
-      <>
-        <BookCard book={book} addFavoriteButton={true} />
-      </>
-    );
-    setModalOpen(true);
+    openModal(book);
   };
 
   const isLoading = sciFiBooksLoading || loveBooksLoading;
@@ -82,12 +75,9 @@ const CarouselManager: React.FC = () => {
               )}
             </Carousel>
           )}
-          {modalOpen && selectedBook && (
-            <ModalManager
-              isOpen={modalOpen}
-              onClose={() => setModalOpen(false)}
-            >
-              {modalContent}
+          {modalOpen && selectedItem && (
+            <ModalManager isOpen={modalOpen} onClose={closeModal}>
+              <BookCard book={selectedItem as Book} addFavoriteButton={true} />
             </ModalManager>
           )}
         </>
