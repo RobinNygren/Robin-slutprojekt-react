@@ -12,12 +12,6 @@ const ModalManager: React.FC<ModalManagerProps> = ({
   toggleFavorite,
   onBookSubmit,
 }) => {
-  const { state, dispatch } = useContext(GlobalStateContext);
-
-  const handleClose = () => {
-    dispatch({ type: "SET_MODAL_CLOSED" });
-  };
-
   return (
     <CardModal
       isOpen={isOpen}

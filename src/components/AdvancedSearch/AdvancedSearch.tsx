@@ -14,6 +14,7 @@ import AuthorCard from "../AuthorCard/AuthorCard";
 import ModalManager from "../ModalManager/ModalManager";
 import SearchForm from "../SearchForm/SearchForm";
 import ResultList from "../ResultList/ResultList";
+import useModal from "../../hooks/useModal";
 
 const AdvancedSearch: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -23,8 +24,8 @@ const AdvancedSearch: React.FC = () => {
   const initialType = searchParams.get("type") || "title";
   const [searchType, setSearchType] = useState(initialType);
   const [url, setUrl] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<React.ReactNode>(null);
+
+  const { modalOpen, selectedItem, openModal, closeModal } = useModal();
 
   const searchOptions = [
     {
@@ -72,14 +73,7 @@ const AdvancedSearch: React.FC = () => {
   } = useFetch<AuthorApiResponse>(searchType === "author" ? url : "");
 
   const handleItemSelect = (item: Book | Author) => {
-    const content =
-      searchType === "title" ? (
-        <BookCard book={item as Book} addFavoriteButton={true} />
-      ) : (
-        <AuthorCard author={item as Author} addFavoriteButton={true} />
-      );
-    setModalContent(content);
-    setModalOpen(true);
+    openModal(item);
   };
 
   return (
@@ -118,10 +112,18 @@ const AdvancedSearch: React.FC = () => {
           </>
         )}
       </div>
-      <ModalManager isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-        {" "}
-        {modalContent}
-      </ModalManager>
+      {modalOpen && selectedItem && (
+        <ModalManager isOpen={modalOpen} onClose={closeModal}>
+          {searchType === "title" ? (
+            <BookCard book={selectedItem as Book} addFavoriteButton={true} />
+          ) : (
+            <AuthorCard
+              author={selectedItem as Author}
+              addFavoriteButton={true}
+            />
+          )}
+        </ModalManager>
+      )}
     </div>
   );
 };
